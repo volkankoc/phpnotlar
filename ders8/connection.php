@@ -1,9 +1,9 @@
 <?php 
     
-    $host ="sql7.freemysqlhosting.net";
-    $username="sql7382410";
-    $password="N8fHyY5m3g";
-    $database="sql7382410";
+    $host ="www.bidunyabilgi.com";
+    $username="bidunyab_phpders";
+    $password="phpders";
+    $database="bidunyab_phpders";
 
     // $host ="localhost";
     // $username="root";
@@ -12,7 +12,7 @@
 
     try 
     {
-        $conn=new PDO("mysql:host=$host;dbname=$database",$username,$password);
+        $conn=new PDO("mysql:host=$host;dbname=$database;charset=utf8",$username,$password);
       //echo "bağlandı";
     } catch (PDOException $err) 
     {
