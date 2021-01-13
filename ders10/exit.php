@@ -10,14 +10,16 @@ $sorgu->bindValue(":session_id",$_SESSION['session_id']);
 $sorgu->bindValue(":cikis_saati",date("Y-m-d H:i:s"));
 $sorgu->execute();
 
-if($sorgu->execute())
+if($sorgu->rowCount()>0)
 {
-    echo "Session tablosu güncellendi";
+    echo "ÇIKIŞ YAPILDI";
+    session_unset();
+    session_destroy();
+    header("Location:login.php");
+
 }
 else{
-    echo "session tablosu güncellenmedi";
+    echo "OTURUM SONLANDIRILAMADI";
 }
 
-session_unset();
-session_destroy();
 ?>

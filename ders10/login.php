@@ -1,17 +1,9 @@
-<!DOCTYPE html>
-<html lang="tr">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
-
-    <title>Session İşlemleri Veritanından giriş</title>
-  </head>
+<?php include_once("./config/init.php"); ?>
   <body>
     <div class="container">
       <div class="row">
         <div class="col-md-8 offset-4">
-          <form method="POST" action="index.php">
+          <form method="POST" action="login.php">
             <div class="card" style="width: 28rem">
               <img
                 src="https://picsum.photos/id/1060/536/354?blur=2"
@@ -58,3 +50,45 @@
     </div>
   </body>
 </html>
+
+
+<?php 
+
+if ($_POST){
+session_start();
+session_regenerate_id();
+
+$pass=md5($_POST['pass']);
+$user=$_POST['user'];
+include_once("./config/db.php");
+$sorgu=$db->prepare("SELECT * FROM users WHERE username=:username");
+$sorgu->bindValue(":username",$user);
+$sorgu->execute();
+
+if($sorgu->rowCount()>0){
+    $row=$sorgu->fetch(PDO::FETCH_ASSOC);
+    if ($row["pass"]==$pass)
+    {
+        session_start();
+        $_SESSION['adsoyad']=$row["adsoyad"];
+        $_SESSION['id']=$row["id"];
+        $_SESSION['session_id']=session_id();
+        $_SESSION['role']=$row["role"];
+        $sorgu=$db->prepare("INSERT INTO sessions set session_id=:session_id,user=:user,cikis_saati=:cikis_saati");
+        $sorgu->bindValue(":user",$row['username']);
+        $sorgu->bindValue(":cikis_saati","");
+        $sorgu->bindValue(":session_id",session_id());
+        $sorgu->execute();
+        header("location:index.php");
+
+    }
+    else{
+        echo "şifre yanlış";
+    }
+}
+else{
+    echo "Kayıt Bulunamadı";
+}
+
+}
+?>

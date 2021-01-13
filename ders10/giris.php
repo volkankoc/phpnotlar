@@ -7,4 +7,7 @@ if ($_SESSION['adsoyad'])
     echo "Hoşgeldiniz.... ".$_SESSION['adsoyad'];
     echo '<a href="exit.php">Oturumu Kapat</a>';
 }
+else {
+    header("Location:index.php");
+}
 ?>
