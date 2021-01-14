@@ -16,7 +16,10 @@
             {
                 ?>
                     <li class="nav-item">
-                        <a class="nav-link" href="newpost.php">Yeni Yazı</a>
+                        <a class="nav-link" href="admin.php">Yeni Yazı</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="exit.php">Çıkış</a>
                     </li>
         
                 <?php

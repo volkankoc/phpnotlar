@@ -4,6 +4,11 @@ include_once("./config/db.php");
 
 session_start();
 ?>
+<style>
+    a {
+        text-decoration: none;
+    }
+</style>
 <div class="container mt-5">
     <div class="row">
         <ul class="nav nav-pills nav-fill">
@@ -17,7 +22,7 @@ session_start();
             if ($_SESSION['role'] == "admin") {
             ?>
                 <li class="nav-item">
-                    <a class="nav-link" href="newpost.php">Yeni Yazı</a>
+                    <a class="nav-link" href="admin.php">Yeni Yazı</a>
                 </li>
 
             <?php
@@ -42,28 +47,42 @@ session_start();
             <?php
             $sorgu = $db->prepare("SELECT * FROM posts");
             $sorgu->execute();
-            $hr=0;
-            while ($row = $sorgu->fetch(PDO::FETCH_ASSOC)) { $hr++;
+          
+            while ($row = $sorgu->fetch(PDO::FETCH_ASSOC)) {
             ?>
                 
-                    <div class="col-6">
-                        <h3 class="text-warning"><a href="blogdetay?id=<?=$row["id"]?>"> <?= $row["title"] ?></a></h3>
-                        <p> <?= substr($row["body"], 100) ?></p>
-                        <div class="row mb-3">
-                            <div class="col-6">
-                                Yazar : <span class="text-success"><?= $row["author"] ?></span>
+                    <div class="col-6 mb-2">
+                        <div class="card border-info">
+                            <div class="card-header border-warning">
+                                <h4 class="text-warning"><a href="blogdetay.php?id=<?=$row["id"]?>"> <?= $row["title"] ?></a></h4>
                             </div>
+                            <div class="card-body">
+                                <div class="text-center">
+                                    <img src="<?=$row["image"]?>" class="img-thumbnail" alt="...">
 
-                            <div class="col-6 text-right">
-                                Tarih : <span class="text-danger"><?= $row["date"] ?></span>
-
+                                </div>
+                                <p> <?= substr($row["body"], 0,200) ?></p>
+                                <div class="row mb-3">
+                                    <div class="col-6">
+                                        Yazar : <span class="text-success"><?= $row["author"] ?></span>
+                                    </div>
+        
+                                    <div class="col-6 text-right">
+                                        Tarih : <span class="text-danger"><?= $row["date"] ?></span>
+                                    <?php if ($_SESSION['role'] == "admin") {
+                                        ?>
+                                        <a class="btn btn-outline-danger" href="sil.php?id=<?=$row["id"]?>">Sil</a>
+                                    <?php }?>  
+                                    </div>
+                                </div>
                             </div>
+                            
                         </div>
                     </div>
                  
 
             <?php
-              if ($hr%2==0) echo "<hr>";
+             
             }
 
 
