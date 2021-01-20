@@ -14,11 +14,7 @@
        echo $err->getMessage();
     }
 
-//     function oturumKaydet($user)
-// {
-//     $sorgu=$dba->prepare("INSERT INTO sessions set user=:user");
-//     $sorgu->bindValue(":user",$user);
-//     $sorgu->execute();
     
-// }
+
+
 ?>
