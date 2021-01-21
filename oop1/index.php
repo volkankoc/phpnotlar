@@ -47,6 +47,11 @@
     </div>
 
     <?php
+
+function script($url)
+{
+    return '<script type="text/javascript" src="' . $url . '"></script>';
+}
         include_once("DB.php");
         $baglan = new DB();
 
